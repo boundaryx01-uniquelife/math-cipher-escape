@@ -125,6 +125,9 @@ let gameState = {
   }
 };
 
+// 관리자(진행요원) 패스 코드: 어떤 문항에서든 이 코드를 입력하면 정답 없이 다음 단계로 진행
+const ADMIN_CODE = 'ADMIN2026';
+
 // 정답 비교 정규화 함수
 function normalize(value) {
   return String(value).trim().toUpperCase().replace(/\s+/g, "");
@@ -365,7 +368,9 @@ function handleAnswerSubmit() {
   let isCorrect = false;
   let correctWord = "";
 
-  if (stage === 1) {
+  if (normalize(inputVal) === normalize(ADMIN_CODE)) {
+    isCorrect = true; // 관리자 코드 → 정답 처리
+  } else if (stage === 1) {
     correctWord = gameState.questions.stage1.word;
     isCorrect = (normalize(inputVal) === normalize(correctWord));
   } else if (stage === 2) {
